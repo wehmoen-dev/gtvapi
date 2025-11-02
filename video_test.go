@@ -3,6 +3,7 @@ package gtvapi
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -58,8 +59,9 @@ func TestClient_VideoInfo(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			server := mockServer(t, func(w http.ResponseWriter, r *http.Request) {
 				if tt.episode > 0 {
-					if r.URL.Query().Get("episode") != "1000" {
-						t.Errorf("expected episode=1000, got %s", r.URL.Query().Get("episode"))
+					expectedEpisode := fmt.Sprintf("%d", tt.episode)
+					if r.URL.Query().Get("episode") != expectedEpisode {
+						t.Errorf("expected episode=%s, got %s", expectedEpisode, r.URL.Query().Get("episode"))
 					}
 				}
 				w.WriteHeader(tt.statusCode)
