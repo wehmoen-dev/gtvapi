@@ -186,12 +186,12 @@ func TestClient_VideoComments(t *testing.T) {
 
 func TestClient_VideoPlaylist(t *testing.T) {
 	tests := []struct {
-		name        string
-		episode     int
-		response    interface{}
-		statusCode  int
-		wantErr     bool
-		wantURL     string
+		name       string
+		episode    int
+		response   interface{}
+		statusCode int
+		wantErr    bool
+		wantURL    string
 	}{
 		{
 			name:    "successful request",
