@@ -1,11 +1,24 @@
 package gtvapi
 
-type Endpoint string
+// endpoint represents an API endpoint path.
+type endpoint string
 
-const videoInfoEndpoint Endpoint = "video/info"
-const videoPlaylistEndpoint Endpoint = "video/playlist"
-const videoCommentsEndpoint Endpoint = "video/comments"
-const videoDiscoveryEndpoint Endpoint = "video/discovery/"
-const externalTwitchLivecheckEndpoint Endpoint = "external/twitch/livecheck"
-const tagsAllEndpoint Endpoint = "tags/all"
-const searchEndpoint Endpoint = "search"
+const (
+	// videoInfoEndpoint is the endpoint for retrieving video information.
+	videoInfoEndpoint endpoint = "video/info"
+
+	// videoPlaylistEndpoint is the endpoint for retrieving video playlist URLs.
+	videoPlaylistEndpoint endpoint = "video/playlist"
+
+	// videoCommentsEndpoint is the endpoint for retrieving video comments.
+	videoCommentsEndpoint endpoint = "video/comments"
+
+	// videoDiscoveryEndpoint is the base endpoint for video discovery.
+	videoDiscoveryEndpoint endpoint = "video/discovery"
+
+	// externalTwitchLivecheckEndpoint is the endpoint for checking Twitch live status.
+	externalTwitchLivecheckEndpoint endpoint = "external/twitch/livecheck"
+
+	// tagsAllEndpoint is the endpoint for retrieving all tags.
+	tagsAllEndpoint endpoint = "tags/all"
+)
