@@ -66,7 +66,7 @@ func TestClient_VideoInfo(t *testing.T) {
 				}
 				w.WriteHeader(tt.statusCode)
 				if tt.response != nil {
-					json.NewEncoder(w).Encode(tt.response)
+					_ = json.NewEncoder(w).Encode(tt.response)
 				}
 			})
 
@@ -157,10 +157,10 @@ func TestClient_VideoComments(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			server := mockServer(t, func(w http.ResponseWriter, r *http.Request) {
+			server := mockServer(t, func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(tt.statusCode)
 				if tt.response != nil {
-					json.NewEncoder(w).Encode(tt.response)
+					_ = json.NewEncoder(w).Encode(tt.response)
 				}
 			})
 
@@ -214,10 +214,10 @@ func TestClient_VideoPlaylist(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			server := mockServer(t, func(w http.ResponseWriter, r *http.Request) {
+			server := mockServer(t, func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(tt.statusCode)
 				if tt.response != nil {
-					json.NewEncoder(w).Encode(tt.response)
+					_ = json.NewEncoder(w).Encode(tt.response)
 				}
 			})
 
@@ -308,10 +308,10 @@ func TestClient_Discover(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			server := mockServer(t, func(w http.ResponseWriter, r *http.Request) {
+			server := mockServer(t, func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(tt.statusCode)
 				if tt.response != nil {
-					json.NewEncoder(w).Encode(tt.response)
+					_ = json.NewEncoder(w).Encode(tt.response)
 				}
 			})
 
@@ -337,9 +337,9 @@ func TestClient_Discover(t *testing.T) {
 
 // Benchmark tests
 func BenchmarkClient_VideoInfo(b *testing.B) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(VideoInfo{
+		_ = json.NewEncoder(w).Encode(VideoInfo{
 			ID:      2596,
 			Title:   "Test Video",
 			Episode: 1000,
@@ -360,9 +360,9 @@ func BenchmarkClient_VideoInfo(b *testing.B) {
 }
 
 func BenchmarkClient_VideoComments(b *testing.B) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(map[string]interface{}{
+		_ = json.NewEncoder(w).Encode(map[string]interface{}{
 			"comments": []Comment{
 				{ID: 1, Comment: "Test comment"},
 			},

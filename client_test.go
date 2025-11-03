@@ -104,9 +104,9 @@ func TestClient_get(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			server := mockServer(t, func(w http.ResponseWriter, r *http.Request) {
+			server := mockServer(t, func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(tt.statusCode)
-				w.Write([]byte(tt.response))
+				_, _ = w.Write([]byte(tt.response))
 			})
 
 			client := NewClient(&ClientConfig{
@@ -131,10 +131,10 @@ func TestClient_get(t *testing.T) {
 
 func TestClient_get_WithContext(t *testing.T) {
 	t.Run("context cancellation", func(t *testing.T) {
-		server := mockServer(t, func(w http.ResponseWriter, r *http.Request) {
+		server := mockServer(t, func(w http.ResponseWriter, _ *http.Request) {
 			time.Sleep(100 * time.Millisecond)
 			w.WriteHeader(http.StatusOK)
-			w.Write([]byte(`{"success": true}`))
+			_, _ = w.Write([]byte(`{"success": true}`))
 		})
 
 		client := NewClient(&ClientConfig{
@@ -152,10 +152,10 @@ func TestClient_get_WithContext(t *testing.T) {
 	})
 
 	t.Run("context timeout", func(t *testing.T) {
-		server := mockServer(t, func(w http.ResponseWriter, r *http.Request) {
+		server := mockServer(t, func(w http.ResponseWriter, _ *http.Request) {
 			time.Sleep(200 * time.Millisecond)
 			w.WriteHeader(http.StatusOK)
-			w.Write([]byte(`{"success": true}`))
+			_, _ = w.Write([]byte(`{"success": true}`))
 		})
 
 		client := NewClient(&ClientConfig{
@@ -216,7 +216,7 @@ func TestClient_UserAgent(t *testing.T) {
 	server := mockServer(t, func(w http.ResponseWriter, r *http.Request) {
 		receivedUA = r.Header.Get("User-Agent")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{}`))
+		_, _ = w.Write([]byte(`{}`))
 	})
 
 	client := NewClient(&ClientConfig{
@@ -244,9 +244,9 @@ func BenchmarkNewClient(b *testing.B) {
 }
 
 func BenchmarkClient_get(b *testing.B) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(map[string]interface{}{
+		_ = json.NewEncoder(w).Encode(map[string]interface{}{
 			"id":    1000,
 			"title": "Test Video",
 		})

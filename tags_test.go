@@ -44,10 +44,10 @@ func TestClient_AllTags(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			server := mockServer(t, func(w http.ResponseWriter, r *http.Request) {
+			server := mockServer(t, func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(tt.statusCode)
 				if tt.response != nil {
-					json.NewEncoder(w).Encode(tt.response)
+					_ = json.NewEncoder(w).Encode(tt.response)
 				}
 			})
 
@@ -80,9 +80,9 @@ func TestClient_AllTags(t *testing.T) {
 
 // Benchmark test
 func BenchmarkClient_AllTags(b *testing.B) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode([]Tag{
+		_ = json.NewEncoder(w).Encode([]Tag{
 			{ID: 1, Title: "Action"},
 			{ID: 2, Title: "Adventure"},
 		})

@@ -21,7 +21,4 @@ const (
 
 	// tagsAllEndpoint is the endpoint for retrieving all tags.
 	tagsAllEndpoint endpoint = "tags/all"
-
-	// searchEndpoint is the endpoint for searching content.
-	searchEndpoint endpoint = "search"
 )

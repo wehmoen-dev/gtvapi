@@ -257,7 +257,7 @@ type ChannelInfo struct {
 // LiveCheck contains the live status of multiple channels.
 type LiveCheck struct {
 	// Channels maps channel names to their live status information.
-	Channels map[ChannelName]ChannelInfo `json:"channels"`
+	Channels map[ChannelName]*ChannelInfo `json:"channels"`
 }
 
 // SortDirection specifies the sort order direction.

@@ -19,7 +19,7 @@ func TestClient_LiveCheck(t *testing.T) {
 		{
 			name: "successful request with live channels",
 			response: LiveCheck{
-				Channels: map[ChannelName]ChannelInfo{
+				Channels: map[ChannelName]*ChannelInfo{
 					"gronkh": {
 						IsLive:             true,
 						ChannelID:          "12345",
@@ -41,7 +41,7 @@ func TestClient_LiveCheck(t *testing.T) {
 		{
 			name: "empty channels",
 			response: LiveCheck{
-				Channels: map[ChannelName]ChannelInfo{},
+				Channels: map[ChannelName]*ChannelInfo{},
 			},
 			statusCode: http.StatusOK,
 			wantErr:    false,
@@ -57,10 +57,10 @@ func TestClient_LiveCheck(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			server := mockServer(t, func(w http.ResponseWriter, r *http.Request) {
+			server := mockServer(t, func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(tt.statusCode)
 				if tt.response != nil {
-					json.NewEncoder(w).Encode(tt.response)
+					_ = json.NewEncoder(w).Encode(tt.response)
 				}
 			})
 
@@ -101,10 +101,10 @@ func TestClient_LiveCheck(t *testing.T) {
 }
 
 func TestClient_LiveCheck_ContextCancellation(t *testing.T) {
-	server := mockServer(t, func(w http.ResponseWriter, r *http.Request) {
+	server := mockServer(t, func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(LiveCheck{
-			Channels: map[ChannelName]ChannelInfo{},
+		_ = json.NewEncoder(w).Encode(LiveCheck{
+			Channels: map[ChannelName]*ChannelInfo{},
 		})
 	})
 
@@ -124,10 +124,10 @@ func TestClient_LiveCheck_ContextCancellation(t *testing.T) {
 
 // Benchmark test
 func BenchmarkClient_LiveCheck(b *testing.B) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(LiveCheck{
-			Channels: map[ChannelName]ChannelInfo{
+		_ = json.NewEncoder(w).Encode(LiveCheck{
+			Channels: map[ChannelName]*ChannelInfo{
 				"gronkh": {
 					IsLive:      true,
 					ViewerCount: 5000,

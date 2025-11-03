@@ -25,7 +25,7 @@ import (
 //	        fmt.Printf("%s is live with %d viewers\n", name, info.ViewerCount)
 //	    }
 //	}
-func (c *Client) LiveCheck(ctx context.Context) (map[ChannelName]ChannelInfo, error) {
+func (c *Client) LiveCheck(ctx context.Context) (map[ChannelName]*ChannelInfo, error) {
 	data, err := c.get(ctx, string(externalTwitchLivecheckEndpoint), nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to check live status: %w", err)

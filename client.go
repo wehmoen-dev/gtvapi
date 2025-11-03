@@ -40,7 +40,7 @@ const (
 	DefaultMaxRetries = 3
 
 	// DefaultRetryWaitMin is the minimum wait time between retries.
-	DefaultRetryWaitMin = 1 * time.Second
+	DefaultRetryWaitMin = 1 * time.Second //revive:disable-line:time-naming
 
 	// DefaultRetryWaitMax is the maximum wait time between retries.
 	DefaultRetryWaitMax = 30 * time.Second
